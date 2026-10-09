@@ -11,15 +11,16 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Courier New', monospace;
-            background: #000;
-            color: #ff073a;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
+     body {
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #ff073a;
+    min-height: 100vh;
+    /* overflow: hidden;  ← УБИРАЕМ ЭТУ СТРОКУ */
+    overflow-x: hidden;   /* на всякий случай прячем горизонтальный скролл */
+    overflow-y: auto;     /* разрешаем вертикальную прокрутку */
+    position: relative;
+}
         /* Мигающий красный фон */
         .flash-overlay {
             position: fixed;
