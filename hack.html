@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ КРИТИЧЕСКАЯ ОШИБКА ⚠️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #ff073a;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Мигающий красный фон */
+        .flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.1);
+            animation: flash 0.5s infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .skull {
+            font-size: 100px;
+            animation: shake 0.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+            text-shadow: 0 0 30px rgba(255, 7, 58, 0.8);
+            animation: glitch-text 0.3s infinite;
+        }
+
+        @keyframes glitch-text {
+            0%, 90%, 100% { transform: translate(0); filter: none; }
+            92% { transform: translate(-3px, 2px); filter: hue-rotate(90deg); }
+            94% { transform: translate(3px, -2px); filter: hue-rotate(180deg); }
+            96% { transform: translate(-3px, -2px); filter: hue-rotate(270deg); }
+            98% { transform: translate(3px, 2px); filter: hue-rotate(360deg); }
+        }
+
+        .status-bar {
+            background: rgba(255, 7, 58, 0.2);
+            border: 2px solid #ff073a;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-label {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #1a1a1a;
+            border: 2px solid #ff073a;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff073a, #ff4d6d);
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: move-stripes 1s linear infinite;
+        }
+
+        @keyframes move-stripes {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(20px); }
+        }
+
+        .terminal {
+            background: #0a0a0a;
+            border: 2px solid #ff073a;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            height: 300px;
+            overflow-y: auto;
+            font-size: 0.9em;
+        }
+
+        .terminal-line {
+            margin: 5px 0;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .terminal-line.success { color: #00ff00; }
+        .terminal-line.warning { color: #ffff00; }
+        .terminal-line.error { color: #ff073a; }
+        .terminal-line.info { color: #00ffff; }
+
+        .countdown {
+            text-align: center;
+            font-size: 3em;
+            margin: 30px 0;
+            color: #ff073a;
+            text-shadow: 0 0 20px rgba(255, 7, 58, 0.8);
+        }
+
+        .warning-message {
+            background: rgba(255, 7, 58, 0.3);
+            border: 3px solid #ff073a;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .warning-message.show {
+            display: block;
+        }
+
+        .warning-message h2 {
+            color: #fff;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .warning-message p {
+            color: #fff;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: #ff073a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #c70039;
+            transform: scale(1.05);
+        }
+
+        .data-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .data-item {
+            background: rgba(255, 7, 58, 0.1);
+            border: 1px solid #ff073a;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .data-item-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+     /*   max-width: 768px {
+            h1 { font-size: 1.8em; }
+            .skull { font-size: 60px; }
+            .countdown { font-size: 2em; }
+            .terminal { height: 200px; }
+        } */
+
+        @media (max-width: 768px) {
+    h1 { font-size: 1.8em; }
+    .skull { font-size: 60px; }
+    .countdown { font-size: 2em; }
+    .terminal { height: 200px; }
+
+}
+    </style>
+</head>
+<body>
+    <div class="flash-overlay"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="skull">💀</div>
+            <h1>ВАШ ТЕЛЕФОН ВЗЛОМАН!</h1>
+            <p style="color: #fff; font-size: 1.2em;">Все ваши данные были скомпрометированы</p>
+        </div>
+
+        <div class="status-bar">
+            <div class="progress-container">
+                <div class="progress-label">📤 Отправка данных на сервер...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div style="text-align: center; margin-top: 10px; color: #fff;">
+                    <span id="progressPercent">0</span>%
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal" id="terminal">
+            <!-- Терминальные строки будут добавляться через JS -->
+        </div>
+
+        <div class="countdown" id="countdown">60</div>
+        <p style="text-align: center; color: #fff; margin-bottom: 30px;">
+            секунд до полной блокировки устройства
+        </p>
+
+
+<div class="data-items" id="dataItems">
+            <!-- Элементы данных будут добавляться через JS -->
+        </div>
+
+        <div class="warning-message" id="warningMessage">
+            <h2>🛑 СТОП! ЭТО УЧЕБНАЯ ТРЕВОГА! 🛑</h2>
+            <p><strong>Ваш телефон НЕ взломан!</strong></p>
+            <p>Это демонстрация того, как выглядят мошеннические сайты.</p>
+            <p>⚠️ <strong>Никогда не сканируйте подозрительные QR-коды!</strong></p>
+            <p>⚠️ <strong>Не переходите по неизвестным ссылкам!</strong></p>
+            <p>⚠️ <strong>Не вводите личные данные на сомнительных сайтах!</strong></p>
+            <a href="index.html" class="back-btn">← Вернуться назад</a>
+        </div>
+    </div>
+
+    <script>
+        // Прогресс бар
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+
+        function updateProgress() {
+            if (progress < 100) {
+                progress += Math.random() * 3;
+                if (progress > 100) progress = 100;
+                progressBar.style.width = progress + '%';
+                progressPercent.textContent = Math.floor(progress);
+                
+                if (progress < 100) {
+                    setTimeout(updateProgress, 200);
+                } else {
+                    showWarning();
+                }
+            }
+        }
+
+        // Терминал
+        const terminalMessages = [
+            { text: '> Инициализация взлома...', type: 'info', delay: 0 },
+            { text: '> Подключение к устройству...', type: 'info', delay: 500 },
+            { text: '✓ Доступ получен', type: 'success', delay: 1000 },
+            { text: '> Сканирование файловой системы...', type: 'info', delay: 1500 },
+            { text: '✓ Найдено: 2,847 файлов', type: 'success', delay: 2000 },
+            { text: '> Копирование контактов...', type: 'warning', delay: 2500 },
+            { text: '✓ Скопировано: 156 контактов', type: 'success', delay: 3000 },
+            { text: '> Доступ к камере...', type: 'error', delay: 3500 },
+            { text: '✓ Камера активирована', type: 'error', delay: 4000 },
+            { text: '> Извлечение паролей...', type: 'warning', delay: 4500 },
+            { text: '✓ Найдено: 23 сохраненных пароля', type: 'success', delay: 5000 },
+            { text: '> Доступ к микрофону...', type: 'error', delay: 5500 },
+            { text: '✓ Запись начата', type: 'error', delay: 6000 },
+            { text: '> Копирование фотографий...', type: 'warning', delay: 6500 },
+            { text: '✓ Скопировано: 1,234 фото', type: 'success', delay: 7000 },
+            { text: '> Шифрование данных...', type: 'info', delay: 7500 },
+            { text: '✓ Данные зашифрованы', type: 'success', delay: 8000 },
+            { text: '> Отправка на сервер...', type: 'error', delay: 8500 },
+            { text: '!!! ВНИМАНИЕ: ОБНАРУЖЕНА ПОДОЗРИТЕЛЬНАЯ АКТИВНОСТЬ !!!', type: 'error', delay: 9000 },
+        ];
+
+        const terminal = document.getElementById('terminal');
+        
+        terminalMessages.forEach(msg => {
+            setTimeout(() => {
+                const line = document.createElement('div');
+                line.className = `terminal-line ${msg.type}`;
+                line.textContent = msg.text;
+                terminal.appendChild(line);
+                terminal.scrollTop = terminal.scrollHeight;
+            }, msg.delay);
+        });
+
+        // Обратный отсчет
+        let timeLeft = 60;
+        const countdownEl = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            timeLeft--;
+            countdownEl.textContent = timeLeft;
+            
+            if (timeLeft <= 10) {
+                countdownEl.style.color = '#ff0000';
+                countdownEl.style.animation = 'shake 0.3s infinite';
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                showWarning();
+            }
+        }, 1000);
+
+        // Элементы данных
+        const dataItemsList = [
+            { icon: '📱', text: 'Контакты', delay: 1000 },
+            { icon: '📸', text: 'Фотографии', delay: 2000 },
+            { icon: '🔑', text: 'Пароли', delay: 3000 },
+            { icon: '💳', text: 'Банковские данные', delay: 4000 },
+            { icon: '📍', text: 'Геолокация', delay: 5000 },
+            { icon: '🎤', text: 'Записи разговоров', delay: 6000 },
+        ];
+
+        const dataItemsContainer = document.getElementById('dataItems');
+        
+        dataItemsList.forEach((item, index) => {
+            setTimeout(() => {
+                const div = document.createElement('div');
+                div.className = 'data-item';
+                div.style.animationDelay = `${index * 0.1}s`;
+                div.innerHTML = `
+                    <div class="data-item-icon">${item.icon}</div>
+                    <div>${item.text}</div>
+                    <div style="color: #ff073a; margin-top: 5px;">✓ УКРАДЕНО</div>
+                `;
+                dataItemsContainer.appendChild(div);
+            }, item.delay);
+        });
+
+        // Показать предупреждение
+        function showWarning() {
+            document.getElementById('warningMessage').classList.add('show');
+            document.querySelector('.status-bar').style.display = 'none';
+            document.querySelector('.terminal').style.display = 'none';
+            document.getElementById('countdown').style.display = 'none';
+            document.getElementById('dataItems').style.display = 'none';
+            
+            // Остановить мигание
+            document.querySelector('.flash-overlay').style.animation = 'none';
+            document.querySelector('.flash-overlay').style.opacity = '0.3';
+        }
+
+        // Запустить прогресс
+        setTimeout(updateProgress, 1000);
+
+        // Предупреждение при уходе
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+    </script>
+</body>
+</html>
+

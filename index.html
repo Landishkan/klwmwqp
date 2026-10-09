@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ ВНИМАНИЕ ⚠️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Мигающий фон */
+
+
+body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 0, 0, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(255, 0, 0, 0.03) 3px
+            );
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 40px;
+            max-width: 800px;
+        }
+
+        .warning-icon {
+            font-size: 80px;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            color: #ff073a;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 7, 58, 0.5);
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 2px); }
+            94% { transform: translate(2px, -2px); }
+            96% { transform: translate(-2px, -2px); }
+            98% { transform: translate(2px, 2px); }
+        }
+
+        .subtitle {
+            color: #eaeaea;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 25px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-hack {
+            background: linear-gradient(135deg, #ff073a 0%, #c70039 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 7, 58, 0.4);
+        }
+
+        .btn-hack:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 7, 58, 0.6);
+        }
+
+        .btn-prize {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a1a2e;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-prize:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-text {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .btn-desc {
+            font-size: 0.7em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .footer-warning {
+            margin-top: 50px;
+            color: #ff073a;
+            font-size: 0.9em;
+            opacity: 0.7;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Декоративные элементы */
+        .corner {
+            position: fixed;
+
+
+width: 100px;
+            height: 100px;
+            border: 3px solid rgba(255, 7, 58, 0.3);
+        }
+
+        .corner-tl { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .corner-br { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+       
+        @media (max-width: 768px) {
+  h1 { font-size: 1.8em; }
+    .btn { min-width: 250px; padding: 20px 30px; font-size: 1.1em; }
+            .buttons-container { gap: 20px; }
+}
+    </style>
+</head>
+<body>
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="container">
+        <div class="warning-icon">⚠️</div>
+        <h1>ВЫ БЫЛИ ВЗЛОМАНЫ!</h1>
+        <p class="subtitle">Выберите действие для продолжения...</p>
+        
+        <div class="buttons-container">
+            <a href="hack.html" class="btn btn-hack">
+                <span class="btn-text">🔓 Разблокировать устройство</span>
+                <span class="btn-desc">Срочно! Данные удаляются...</span>
+            </a>
+            
+            <a href="prize.html" class="btn btn-prize">
+                <span class="btn-text">🎁 Получить приз</span>
+                <span class="btn-desc">Вы 1,000,000-й посетитель!</span>
+            </a>
+        </div>
+
+        <p class="footer-warning">⏰ У вас осталось мало времени...</p>
+    </div>
+
+    <script>
+        // Добавляем случайные глитч-эффекты
+        setInterval(() => {
+            const title = document.querySelector('h1');
+            if (Math.random() > 0.7) {
+                title.style.textShadow = `${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 20px rgba(255, 7, 58, 0.8)`;
+                setTimeout(() => {
+                    title.style.textShadow = '0 0 20px rgba(255, 7, 58, 0.5)';
+                }, 100);
+            }
+        }, 2000);
+
+        // Предупреждение при уходе со страницы
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+    </script>
+</body>
+</html>
